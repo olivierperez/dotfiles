@@ -1,0 +1,37 @@
+################
+# 1. Les alias #
+################
+
+# Docker
+alias dps="docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}\\t{{.RunningFor}}\t{{.Ports}}'"
+alias di="docker images --format 'table {{.Repository}}\\t{{.Tag}}\\t{{.ID}}\\t{{.Size}}'"
+alias dl="docker ps -l -q"
+alias dcleanimages="docker rmi $(docker images -a -q)"
+alias dcleancontainers="docker rm $(docker ps -a -q)"
+
+# Docker Function
+function dnetwork () {
+	docker inspect -f '{{ json .NetworkSettings }}' $1 | python -mjson.tool
+}
+
+# Gestion du 'ls' : couleur & ne touche pas aux accents
+alias ls='ls --classify --tabsize=0 --literal --color=auto --show-control-chars --human-readable'
+
+# Demande confirmation avant d'écraser un fichier
+alias cp='cp --interactive'
+alias mv='mv --interactive'
+alias rm='rm --interactive'
+
+# Raccourcis pour 'ls'
+alias ll='ls -l'
+alias la='ls -a'
+alias lla='ls -la'
+
+# Quelques alias pratiques
+alias less='less --quiet'
+alias df='df --human-readable'
+alias du='du --human-readable'
+alias md='mkdir'
+alias rd='rmdir'
+alias upgrade='apt-get update && apt-get upgrade && apt-get clean'
+
