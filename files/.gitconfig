@@ -1,0 +1,80 @@
+[user]
+        name = Olivier Perez [a570709]
+        email = olivier.perez@worldline.com
+
+[credential]
+        helper = /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
+
+[core]
+        editor = vim
+
+[branch]
+	autosetuprebase = always
+	
+[pull]
+	rebase = preserve
+
+[rerere]
+	enabled = true
+
+[color]
+        ui = true
+
+[color "diff"]
+        old = red
+        new = green
+        frag = magenta dim
+
+[push]
+	default = upstream
+
+[alias]
+	ap = add -p
+	amend = commit --amend --no-edit
+	amendedit = commit --amend
+	br = branch
+	changes = diff --name-status -w
+	chpi = cherry-pick
+	chpix = cherry-pick -x
+	cm = commit
+	co = checkout
+	diw = diff --word-diff -w
+	dic = diff --cached -w
+	dis = diff --stat -w
+	fixup = commit --fixup
+	it = !git init && git commit -m "Initial commit" --allow-empty
+	merge = merge --no-ff
+	mergeff = merge --ff
+	please = push --force-with-lease
+	shorty = status --short --branch
+	st = status -u
+	undo = reset --soft HEAD^
+	who = shortlog -sne
+
+	track = !git branch -vv | grep "^*" | sed -re 's/^\\* ([^ ]+) .*\\[(.+)].*$/\\1 -> \\2/'
+	
+	grog = log --graph --abbrev-commit --decorate --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(dim white) - %an%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n          %C(yellow)%s%C(reset)'
+
+	l = log --pretty='%C(yellow)%h -%Creset %s%Creset' --abbrev-commit --graph
+	lg = log --graph --pretty=format:'%C(yellow)%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	lgs = log --graph --pretty=format:'%C(yellow)%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --stat
+	lgp = log --graph --pretty=format:'%C(yellow)%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative -p
+	lgsp = log --graph --pretty=format:'%C(yellow)%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --stat -p
+
+	la = !git l --all
+	lga = !git lg --all
+	lgsa = !git lgs --all
+	lgpa = !git lgp --all
+	lgspa = !git lgsp --all
+
+	lh = !git l | head -n 25
+	lgh = !git lg | head -n 25
+	lgsh = !git lgs | head -n 25
+	lgph = !git lgp | head -n 25
+	lgsph = !git lgsp | head -n 25
+
+	ignoreSSL = config --local http.sslVerify false
+[merge]
+	tool = meld
+[mergetool "meld"]
+	cmd = meld "$LOCAL" "$BASE" "$REMOTE" --output "$MERGED"
