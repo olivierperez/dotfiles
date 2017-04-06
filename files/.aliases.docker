@@ -1,0 +1,12 @@
+# Docker
+alias dps="docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}\\t{{.RunningFor}}\t{{.Ports}}'"
+alias di="docker images --format 'table {{.Repository}}\\t{{.Tag}}\\t{{.ID}}\\t{{.Size}}'"
+alias dl="docker ps -l -q"
+alias dcleanimages="docker rmi $(docker images -a -q)"
+alias dcleancontainers="docker rm $(docker ps -a -q)"
+
+# Docker Function
+function dnetwork () {
+	docker inspect -f '{{ json .NetworkSettings }}' $1 | python -mjson.tool
+}
+
