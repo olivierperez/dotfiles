@@ -21,6 +21,9 @@ curl \
 	-O https://raw.githubusercontent.com/olivierperez/dotfiles/master/files/.screenrc \
 	-O https://raw.githubusercontent.com/olivierperez/dotfiles/master/files/.vimrc
 
+echo ". ~/.aliases.global" >> ~/.bashrc
+echo ". ~/.aliases.docker" >> ~/.bashrc
+
 # Docker
 apt-get install -y \
 	apt-transport-https \
