@@ -54,6 +54,9 @@
 	undo = reset --soft HEAD^
 	who = shortlog -sne
 
+	prune = !git br --merged master | egrep -v ".*(dev|master|release).*" | xargs git branch -d
+	update = "!f() { if [ \"$1\" = \"\" ]; then exit 1; fi; git stash && git checkout $1 && git pull && git checkout - && git stash pop; }; f"
+
 	track = !git branch -vv | grep "^*" | sed -re 's/^\\* ([^ ]+) .*\\[(.+)].*$/\\1 -> \\2/'
 	
 	grog = log --graph --abbrev-commit --decorate --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(dim white) - %an%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n          %C(yellow)%s%C(reset)'
