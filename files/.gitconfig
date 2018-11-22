@@ -1,6 +1,6 @@
 [user]
-        name = Olivier Perez [a570709]
-        email = olivier.perez@worldline.com
+        name = Olivier Perez
+        email = olivier.perez@olivierperez.fr
 
 [credential]
         helper = /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
