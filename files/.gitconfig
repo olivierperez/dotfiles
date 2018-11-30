@@ -55,7 +55,6 @@
 	who = shortlog -sne
 
 	prune = !git br --merged master | egrep -v ".*(dev|master|release).*" | xargs git branch -d
-	update = "!f() { if [ \"$1\" = \"\" ]; then exit 1; fi; git stash && git checkout $1 && git pull && git checkout - && git stash pop; }; f"
 
 	track = !git branch -vv | grep "^*" | sed -re 's/^\\* ([^ ]+) .*\\[(.+)].*$/\\1 -> \\2/'
 	
