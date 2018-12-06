@@ -57,6 +57,7 @@
 	prune = !git br --merged master | egrep -v ".*(dev|master|release).*" | xargs git branch -d
 
 	track = !git branch -vv | grep "^*" | sed -re 's/^\\* ([^ ]+) .*\\[(.+)].*$/\\1 -> \\2/'
+	aliases = config --get-regexp ^alias.
 	
 	grog = log --graph --abbrev-commit --decorate --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(dim white) - %an%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n          %C(yellow)%s%C(reset)'
 
