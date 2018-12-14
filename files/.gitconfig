@@ -58,7 +58,9 @@
 
 	track = !git branch -vv | grep "^*" | sed -re 's/^\\* ([^ ]+) .*\\[(.+)].*$/\\1 -> \\2/'
 	aliases = config --get-regexp ^alias.
-	
+
+	rlog = log -g --oneline --date=relative
+
 	grog = log --graph --abbrev-commit --decorate --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(dim white) - %an%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n          %C(yellow)%s%C(reset)'
 
 	l = log --pretty='%C(yellow)%h -%Creset %s%Creset' --color=always --abbrev-commit --graph
