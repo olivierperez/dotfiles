@@ -45,7 +45,7 @@
 	dic = diff --cached -w
 	dis = diff --stat -w
 	fixup = commit --fixup
-	it = !git init && !git commit -m "Initial commit" --allow-empty
+	it = "!git init && git commit -m 'Initial commit' --allow-empty"
 	merge = merge --no-ff
 	mergeff = merge --ff
 	please = push --force-with-lease
