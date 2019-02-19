@@ -3,7 +3,7 @@
         email = olivier.perez@olivierperez.fr
 
 [credential]
-        helper = /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
+	helper = /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
 
 [core]
         editor = vim
@@ -82,6 +82,7 @@
 	lgsph = !git lgsp | head -n 25
 
 	ignoreSSL = config --local http.sslVerify false
+	autofixup = "!f() { git commit --fixup=\"$1\"; git rebase -i --autosquash \"$1\"~1;}; f"
 [merge]
 	tool = meld
 [mergetool "meld"]
