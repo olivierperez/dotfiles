@@ -1,6 +1,10 @@
-[user]
-        name = Olivier Perez
-        email = olivier.perez@olivierperez.fr
+[includeIf "gitdir:/data/projects/seb/"]
+	path = .gitconfig-seb
+[includeIf "gitdir:/data/projects/perso/"]
+	path = .gitconfig-perso
+[includeIf "gitdir:/data/projects/zenika/"]
+	path = .gitconfig-zenika
+
 
 [credential]
 	helper = /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
@@ -16,6 +20,7 @@
 
 [rebase]
         autoSquash = true
+        autoStash = true
 
 [rerere]
 	enabled = true
@@ -40,6 +45,7 @@
 	chpi = cherry-pick
 	chpix = cherry-pick -x
 	cm = commit
+	co-commit = "!co_authored_commit(){ usage='usage: git commit -m \"Commit message\" --co \"co_author_name\"\n'; while [ \"${#}\" -gt 0 ]; do case \"${1}\" in -m) shift; message="${1}"; shift;; --co) shift; co_author=\"Co-authored-by: \"${1}\"\n\"; co_authors=\"${co_authors}${co_author}\"; shift;; *) shift;; esac; done; if [ -z \"${co_authors}\" ]; then echo ${usage}; exit 1; fi; if [ -z \"${message}\" ]; then echo ${usage}; exit 1; fi; co_authored_message=\"${message}\n\n\n${co_authors}\"; git commit -m \"${co_authored_message}\"; }; co_authored_commit"
 	co = checkout
 	diw = diff --word-diff -w
 	dic = diff --cached -w
@@ -49,12 +55,15 @@
 	merge = merge --no-ff
 	mergeff = merge --ff
 	please = push --force-with-lease
+	pushtag= push --no-verify
 	shorty = status --short --branch
 	st = status -u
 	undo = reset --soft HEAD^
 	who = shortlog -sne
 
 	prune = !git br --merged master | egrep -v ".*(dev|master|release).*" | xargs git branch -d
+	pop = stash pop
+	tkt = rebase --continue
 
 	track = !git branch -vv | grep "^*" | sed -re 's/^\\* ([^ ]+) .*\\[(.+)].*$/\\1 -> \\2/'
 	aliases = config --get-regexp ^alias.
@@ -65,12 +74,14 @@
 
 	l = log --pretty='%C(yellow)%h -%Creset %s%Creset' --color=always --abbrev-commit --graph
 	lg = log --graph --pretty=format:'%C(yellow)%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset' --color=always --abbrev-commit --date=iso
+	lgb = log --graph --pretty=format:'%C(yellow)%h%Creset -%C(yellow)%d%Creset %Creset' --color=always --abbrev-commit --date=iso
 	lgs = log --graph --pretty=format:'%C(yellow)%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset' --color=always --abbrev-commit --date=iso --stat
 	lgp = log --graph --pretty=format:'%C(yellow)%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset' --color=always --abbrev-commit --date=iso -p
 	lgsp = log --graph --pretty=format:'%C(yellow)%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset' --color=always --abbrev-commit --date=iso --stat -p
 
 	la = !git l --all
 	lga = !git lg --all
+	lgba = !git lgb --all
 	lgsa = !git lgs --all
 	lgpa = !git lgp --all
 	lgspa = !git lgsp --all
@@ -83,6 +94,12 @@
 
 	ignoreSSL = config --local http.sslVerify false
 	autofixup = "!f() { git commit --fixup=\"$1\"; git rebase -i --autosquash \"$1\"~1;}; f"
+
+	sublast="submodule foreach \"(git log -1 --oneline | head -n1 && echo '') || :\""
+	subupdate="submodule update --recursive"
+
+	wip = !git add . && git commit -m WIP
+	unwip = "!f() { if [ \"$(git log -1 --pretty=%B | head -n1)\" = \"WIP\" ]; then git reset HEAD~1; echo \"Unwipped\"; else echo \"Last commit wasn't a WIP\"; fi;}; f"
 [merge]
 	tool = meld
 [mergetool "meld"]
