@@ -4,6 +4,8 @@
 	path = .gitconfig-perso
 [includeIf "gitdir:/data/projects/zenika/"]
 	path = .gitconfig-zenika
+[includeIf "gitdir:/data/projects/bedrock/"]
+	path = .gitconfig-bedrock
 
 
 [credential]
@@ -11,6 +13,7 @@
 
 [core]
         editor = vim
+        autocrlf = input
 
 [branch]
 	autosetuprebase = always
@@ -34,7 +37,7 @@
         frag = magenta dim
 
 [push]
-	default = upstream
+	default = current
 
 [alias]
 	ap = add -p
@@ -47,6 +50,7 @@
 	cm = commit
 	co-commit = "!co_authored_commit(){ usage='usage: git commit -m \"Commit message\" --co \"co_author_name\"\n'; while [ \"${#}\" -gt 0 ]; do case \"${1}\" in -m) shift; message="${1}"; shift;; --co) shift; co_author=\"Co-authored-by: \"${1}\"\n\"; co_authors=\"${co_authors}${co_author}\"; shift;; *) shift;; esac; done; if [ -z \"${co_authors}\" ]; then echo ${usage}; exit 1; fi; if [ -z \"${message}\" ]; then echo ${usage}; exit 1; fi; co_authored_message=\"${message}\n\n\n${co_authors}\"; git commit -m \"${co_authored_message}\"; }; co_authored_commit"
 	co = checkout
+	get = "!gitget(){ git checkout $1; git pull; }; gitget"
 	diw = diff --word-diff -w
 	dic = diff --cached -w
 	dis = diff --stat -w
@@ -61,7 +65,9 @@
 	undo = reset --soft HEAD^
 	who = shortlog -sne
 
-	prune = !git br --merged master | egrep -v ".*(dev|master|release).*" | xargs git branch -d
+	lasttag = !git describe --tags $(git rev-list --tags --max-count=1)
+#	prune = !git br --merged master | egrep -v ".*(dev|master|release).*" | xargs git branch -d
+
 	pop = stash pop
 	tkt = rebase --continue
 
@@ -72,7 +78,7 @@
 
 	grog = log --graph --abbrev-commit --decorate --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(dim white) - %an%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n          %C(yellow)%s%C(reset)'
 
-	l = log --pretty='%C(yellow)%h -%Creset %s%Creset' --color=always --abbrev-commit --graph
+	l = log --pretty=oneline --abbrev-commit --graph --color=always
 	lg = log --graph --pretty=format:'%C(yellow)%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset' --color=always --abbrev-commit --date=iso
 	lgb = log --graph --pretty=format:'%C(yellow)%h%Creset -%C(yellow)%d%Creset %Creset' --color=always --abbrev-commit --date=iso
 	lgs = log --graph --pretty=format:'%C(yellow)%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset' --color=always --abbrev-commit --date=iso --stat
@@ -96,10 +102,16 @@
 	autofixup = "!f() { git commit --fixup=\"$1\"; git rebase -i --autosquash \"$1\"~1;}; f"
 
 	sublast="submodule foreach \"(git log -1 --oneline | head -n1 && echo '') || :\""
-	subupdate="submodule update --recursive"
+	suri="submodule update --recursive --init"
 
 	wip = !git add . && git commit -m WIP
 	unwip = "!f() { if [ \"$(git log -1 --pretty=%B | head -n1)\" = \"WIP\" ]; then git reset HEAD~1; echo \"Unwipped\"; else echo \"Last commit wasn't a WIP\"; fi;}; f"
+
+	hide = update-index --assume-unchanged
+	unhide = update-index --no-assume-unchanged
+	unhide-all = update-index --really-refresh
+	hidden = ! git ls-files -v | grep '^[a-z]' | cut -c3-
+	conflicts = diff --name-only --diff-filter=U
 [merge]
 	tool = meld
 [mergetool "meld"]

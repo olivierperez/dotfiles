@@ -1,0 +1,15 @@
+#!/bin/bash
+
+if [ $# != 1 ]; then
+	>&2 echo "On witch branch it should be merged to be pruned?"
+	exit 1
+fi
+
+git rev-parse --verify $1 >/dev/null 2>&1
+
+if [ $? != 0 ]; then
+	>&2 echo "Branch '$1' doesn't exists!"
+	exit 2
+fi
+
+git br --merged $1 | egrep -v ".*(dev|master|release).*" | xargs git branch -D
