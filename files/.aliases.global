@@ -19,3 +19,6 @@ alias md='mkdir'
 alias rd='rmdir'
 alias upgrade='apt-get update && apt-get upgrade && apt-get clean'
 
+# Change Directory
+alias cd.."cd .."
+alias ..="cd .."
