@@ -19,7 +19,7 @@
 	autosetuprebase = always
 	
 [pull]
-	rebase = preserve
+	rebase = merges
 
 [rebase]
         autoSquash = true
