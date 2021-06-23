@@ -112,6 +112,8 @@
 	unhide-all = update-index --really-refresh
 	hidden = ! git ls-files -v | grep '^[a-z]' | cut -c3-
 	conflicts = diff --name-only --diff-filter=U
+
+	prunef = "! git fetch -p && for branch in $(git branch -vv | grep ': gone]' | awk '{print $1}'); do git branch -D $branch; done"
 [merge]
 	tool = meld
 [mergetool "meld"]
