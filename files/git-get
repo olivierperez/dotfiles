@@ -1,0 +1,20 @@
+#!/bin/bash
+# This script checks out a branch and makes sur the branch is up to date.
+
+if [ "$1" = "" ]
+then
+        echo "Usage: git get <another branch name>"
+        exit 1
+fi
+
+BRANCH=$1
+
+git checkout $BRANCH
+result=$?
+
+git pull
+
+if [ "$result" != "0" ]
+then
+	git checkout $BRANCH
+fi
